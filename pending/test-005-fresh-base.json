@@ -1,0 +1,21 @@
+{
+  "id" : "test-005-fresh-base",
+  "capturedAt" : "2026-05-08T16:00:00.000Z",
+  "title" : "Director of Engineering",
+  "company" : "DemoCorp",
+  "location" : "United States (Remote)",
+  "workMode" : "Remote",
+  "postingUrl" : "https://www.linkedin.com/jobs/view/test-005",
+  "applicantCount" : 6,
+  "postedMinutesAgo" : 45,
+  "reposted" : false,
+  "useBaseResume" : true,
+  "jd" : "Director of Engineering for a remote-first tech company. Lead a 60-person globally distributed engineering org. Establish DORA metrics, AI-augmented development practices, governance for $50M vendor portfolio. Partner with C-suite on engineering strategy. 12+ years software engineering, 5+ years in technical leadership.",
+  "processed" : true,
+  "_test" : true,
+  "_note" : "Reset for re-run demo. useBaseResume=true means Run will skip Anthropic and submit base PDF. Toggle via the per-row Re-run dropdown to switch to Customized.",
+  "processedAt" : "2026-05-10T18:40:32.075354Z",
+  "trackerRowId" : 6,
+  "archivePath" : "archives/DemoCorp/ResumeJayKumarChimata_Director_of_Engineering_20260510.pdf",
+  "matchScore" : 0.8076923076923077
+}

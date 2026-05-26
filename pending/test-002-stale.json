@@ -1,0 +1,19 @@
+{
+  "id" : "test-002-stale",
+  "capturedAt" : "2026-05-08T15:00:00.000Z",
+  "title" : "Director of Engineering",
+  "company" : "StaleCorp",
+  "location" : "United States (Remote)",
+  "workMode" : "Remote",
+  "postingUrl" : "https://www.linkedin.com/jobs/view/test-002",
+  "applicantCount" : 2,
+  "postedMinutesAgo" : 240,
+  "reposted" : false,
+  "jd" : "Director of Engineering role to lead the platform engineering organization. Looking for proven leader with track record of scaling distributed teams, establishing engineering operating models, and driving developer productivity through tooling and process improvements.",
+  "processed" : true,
+  "_test" : true,
+  "_expectedOutcome" : "REJECTED — postedMinutesAgo (240) > postingMaxAgeMinutes (120)",
+  "processedAt" : "2026-05-08T15:25:06.622054Z",
+  "skipped" : true,
+  "skipReason" : "posting_too_old"
+}

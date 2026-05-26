@@ -1,0 +1,41 @@
+server:
+  port: 8090
+  address: 127.0.0.1   # localhost-only — never expose without auth
+
+# Path to the Project Gamma working folder. Relative paths resolve from
+# wherever the JVM is launched. Override with --jobflow.gamma.root=/abs/path
+# or via environment variable JOBFLOW_GAMMA_ROOT.
+jobflow:
+  gamma:
+    root: ".."   # backend/ lives inside Project Gamma, so its parent IS the root
+  anthropic:
+    # API key resolved from env var ANTHROPIC_API_KEY at startup. Never hardcoded.
+    api-key: "${ANTHROPIC_API_KEY:}"
+    base-url: "https://api.anthropic.com/v1"
+    model: "claude-sonnet-4-6"
+    max-tokens: 4096
+    timeout-seconds: 90
+
+# Larger upload limits — resume PDFs can be 1-3 MB
+spring.servlet.multipart:
+  max-file-size: 10MB
+  max-request-size: 10MB
+
+logging:
+  level:
+    com.sparkinvesco.jobflow: INFO
+
+spring:
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      indent-output: true
+  devtools:
+    restart:
+      enabled: true
+      # Don't trigger a restart when files inside Project Gamma change — those
+      # are user data, not code. Only a Java/resources change should restart.
+      exclude: "static/**,public/**"
+      additional-exclude: "../config.json,../workflow.json,../state.json,../tracker.xlsx,../pending/**,../archives/**,../resumes/**,../runtime.md,../architecture.md,../README.md"
+    livereload:
+      enabled: false  # Vite handles browser-side reloading on the React side.

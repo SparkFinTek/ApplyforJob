@@ -1,0 +1,19 @@
+{
+  "id" : "test-004-reposted",
+  "capturedAt" : "2026-05-08T15:00:00.000Z",
+  "title" : "Director of Engineering",
+  "company" : "RepostCorp",
+  "location" : "United States (Remote)",
+  "workMode" : "Remote",
+  "postingUrl" : "https://www.linkedin.com/jobs/view/test-004",
+  "applicantCount" : 3,
+  "postedMinutesAgo" : 45,
+  "reposted" : true,
+  "jd" : "Director of Engineering. Reposted from earlier. Standard role description for engineering leadership including team management, technical strategy, and cross-functional alignment.",
+  "processed" : true,
+  "_test" : true,
+  "_expectedOutcome" : "REJECTED — reposted=true",
+  "processedAt" : "2026-05-08T15:25:06.625427Z",
+  "skipped" : true,
+  "skipReason" : "reposted_listing"
+}

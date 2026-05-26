@@ -1,0 +1,946 @@
+{
+  "version": "1",
+  "exportedAt": "2026-05-07T22:40:08.232Z",
+  "layers": [
+    {
+      "id": "overview",
+      "name": "Overview",
+      "nodes": [
+        {
+          "id": "o1",
+          "type": "start",
+          "x": 60,
+          "y": 30,
+          "label": "Hourly trigger\n(Mon–Fri 8am–6pm ET)",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "o2",
+          "type": "process",
+          "x": 60,
+          "y": 130,
+          "label": "Query LinkedIn for new postings\nmatching titles + locations",
+          "connector": "chrome.linkedin_search",
+          "params": {
+            "titlesRef": "config.targeting.jobTitles",
+            "locationsRef": "config.targeting.locations",
+            "maxAgeMinutes": 60
+          },
+          "approval": false
+        },
+        {
+          "id": "o3",
+          "type": "decision",
+          "x": 60,
+          "y": 240,
+          "label": "Any new\npostings?",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "o4",
+          "type": "start",
+          "x": 360,
+          "y": 240,
+          "label": "End cycle\n(send summary)",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "o5",
+          "type": "process",
+          "x": 60,
+          "y": 360,
+          "label": "For each new posting →",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "o6",
+          "type": "process",
+          "x": 60,
+          "y": 460,
+          "label": "Match against base resumes\n(score JD vs. resume)",
+          "connector": "claude.match_resume",
+          "params": {
+            "resumeFolder": "resumes/",
+            "minScoreRef": "config.targeting.minMatchScore"
+          },
+          "approval": false
+        },
+        {
+          "id": "o7",
+          "type": "decision",
+          "x": 60,
+          "y": 570,
+          "label": "Score ≥\nthreshold?",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "o8",
+          "type": "start",
+          "x": 360,
+          "y": 570,
+          "label": "Skip & log\n(low match)",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "o9",
+          "type": "process",
+          "x": 60,
+          "y": 690,
+          "label": "Tailor resume to JD\n→ see \"Resume Tailoring\"",
+          "connector": "claude.tailor_resume",
+          "params": {
+            "truthfulOnly": true
+          },
+          "approval": true
+        },
+        {
+          "id": "o10",
+          "type": "process",
+          "x": 60,
+          "y": 790,
+          "label": "Export PDF\n(neutral metadata)",
+          "connector": "claude.export_pdf",
+          "params": {
+            "neutralMetadata": true
+          },
+          "approval": false
+        },
+        {
+          "id": "o11",
+          "type": "decision",
+          "x": 60,
+          "y": 890,
+          "label": "Easy Apply\navailable?",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "o12",
+          "type": "process",
+          "x": 360,
+          "y": 890,
+          "label": "Open external ATS\n(Workday / Greenhouse / etc.)",
+          "connector": "chrome.read_posting",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "o13",
+          "type": "decision",
+          "x": 360,
+          "y": 1010,
+          "label": "Account creation\nrequired?",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "o14",
+          "type": "process",
+          "x": 660,
+          "y": 1010,
+          "label": "Pause + notify user\n(human handoff)",
+          "connector": "human.handoff",
+          "params": {
+            "reason": "account_creation_required"
+          },
+          "approval": true
+        },
+        {
+          "id": "o15",
+          "type": "process",
+          "x": 60,
+          "y": 1130,
+          "label": "Read every checkbox\nDecline marketing opt-ins",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "o16",
+          "type": "process",
+          "x": 60,
+          "y": 1230,
+          "label": "Submit application",
+          "connector": "chrome.easy_apply",
+          "params": {
+            "declineMarketing": true
+          },
+          "approval": true
+        },
+        {
+          "id": "o17",
+          "type": "data",
+          "x": 60,
+          "y": 1330,
+          "label": "Create /Company/ folder\n+ archive tailored resume PDF",
+          "connector": "fs.archive_to_company",
+          "params": {
+            "rootFolderRef": "config.archival.rootFolder"
+          },
+          "approval": false
+        },
+        {
+          "id": "o18",
+          "type": "data",
+          "x": 60,
+          "y": 1430,
+          "label": "Append row to\ntracker.xlsx",
+          "connector": "xlsx.append_tracker_row",
+          "params": {
+            "fileRef": "config.tracker.file",
+            "sheetRef": "config.tracker.sheet"
+          },
+          "approval": false
+        },
+        {
+          "id": "o19",
+          "type": "process",
+          "x": 60,
+          "y": 1530,
+          "label": "Begin email monitoring\n→ see \"Email Classification\"",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "o20",
+          "type": "start",
+          "x": 60,
+          "y": 1640,
+          "label": "Done — back to next posting",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "oN1",
+          "type": "note",
+          "x": 360,
+          "y": 30,
+          "label": "Goal: top-10 applicant\non every matching posting.\n• 60-min poll, business hrs ET\n• tracker auto-updates from inbox",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        }
+      ],
+      "edges": [
+        {
+          "id": "e1",
+          "from": "o1",
+          "to": "o2",
+          "label": ""
+        },
+        {
+          "id": "e2",
+          "from": "o2",
+          "to": "o3",
+          "label": ""
+        },
+        {
+          "id": "e3",
+          "from": "o3",
+          "to": "o5",
+          "label": "Yes"
+        },
+        {
+          "id": "e4",
+          "from": "o3",
+          "to": "o4",
+          "label": "No"
+        },
+        {
+          "id": "e5",
+          "from": "o5",
+          "to": "o6",
+          "label": ""
+        },
+        {
+          "id": "e6",
+          "from": "o6",
+          "to": "o7",
+          "label": ""
+        },
+        {
+          "id": "e7",
+          "from": "o7",
+          "to": "o9",
+          "label": "Yes"
+        },
+        {
+          "id": "e8",
+          "from": "o7",
+          "to": "o8",
+          "label": "No"
+        },
+        {
+          "id": "e9",
+          "from": "o9",
+          "to": "o10",
+          "label": ""
+        },
+        {
+          "id": "e10",
+          "from": "o10",
+          "to": "o11",
+          "label": ""
+        },
+        {
+          "id": "e11",
+          "from": "o11",
+          "to": "o15",
+          "label": "Yes"
+        },
+        {
+          "id": "e12",
+          "from": "o11",
+          "to": "o12",
+          "label": "No"
+        },
+        {
+          "id": "e13",
+          "from": "o12",
+          "to": "o13",
+          "label": ""
+        },
+        {
+          "id": "e14",
+          "from": "o13",
+          "to": "o14",
+          "label": "Yes"
+        },
+        {
+          "id": "e15",
+          "from": "o13",
+          "to": "o15",
+          "label": "No"
+        },
+        {
+          "id": "e16",
+          "from": "o15",
+          "to": "o16",
+          "label": ""
+        },
+        {
+          "id": "e17",
+          "from": "o16",
+          "to": "o17",
+          "label": ""
+        },
+        {
+          "id": "e18",
+          "from": "o17",
+          "to": "o18",
+          "label": ""
+        },
+        {
+          "id": "e19",
+          "from": "o18",
+          "to": "o19",
+          "label": ""
+        },
+        {
+          "id": "e20",
+          "from": "o19",
+          "to": "o20",
+          "label": ""
+        }
+      ]
+    },
+    {
+      "id": "tailor",
+      "name": "Resume Tailoring",
+      "nodes": [
+        {
+          "id": "t1",
+          "type": "start",
+          "x": 60,
+          "y": 30,
+          "label": "Receive JD + selected\nbase resume",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "t2",
+          "type": "process",
+          "x": 60,
+          "y": 130,
+          "label": "Extract JD requirements,\nkeywords, must-haves",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "t3",
+          "type": "process",
+          "x": 60,
+          "y": 230,
+          "label": "Identify matching\nexperience in resume",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "t4",
+          "type": "process",
+          "x": 60,
+          "y": 330,
+          "label": "Reorder + emphasize\nrelevant achievements",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "t5",
+          "type": "note",
+          "x": 360,
+          "y": 330,
+          "label": "Truthfulness rule:\nnever invent employers,\ndates, titles, or skills.",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "t6",
+          "type": "decision",
+          "x": 60,
+          "y": 440,
+          "label": "Approval gate\nenabled?",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "t7",
+          "type": "process",
+          "x": 360,
+          "y": 440,
+          "label": "User reviews\ndraft",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "t8",
+          "type": "decision",
+          "x": 360,
+          "y": 560,
+          "label": "Approved?",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "t9",
+          "type": "start",
+          "x": 660,
+          "y": 560,
+          "label": "Iterate / reject\n(loop back to step 4)",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "t10",
+          "type": "process",
+          "x": 60,
+          "y": 680,
+          "label": "Render PDF with\nclean metadata",
+          "connector": "claude.export_pdf",
+          "params": {
+            "neutralMetadata": true
+          },
+          "approval": false
+        },
+        {
+          "id": "t11",
+          "type": "start",
+          "x": 60,
+          "y": 790,
+          "label": "Tailored PDF ready",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        }
+      ],
+      "edges": [
+        {
+          "id": "te1",
+          "from": "t1",
+          "to": "t2",
+          "label": ""
+        },
+        {
+          "id": "te2",
+          "from": "t2",
+          "to": "t3",
+          "label": ""
+        },
+        {
+          "id": "te3",
+          "from": "t3",
+          "to": "t4",
+          "label": ""
+        },
+        {
+          "id": "te4",
+          "from": "t4",
+          "to": "t6",
+          "label": ""
+        },
+        {
+          "id": "te5",
+          "from": "t6",
+          "to": "t7",
+          "label": "Yes"
+        },
+        {
+          "id": "te6",
+          "from": "t6",
+          "to": "t10",
+          "label": "No"
+        },
+        {
+          "id": "te7",
+          "from": "t7",
+          "to": "t8",
+          "label": ""
+        },
+        {
+          "id": "te8",
+          "from": "t8",
+          "to": "t10",
+          "label": "Yes"
+        },
+        {
+          "id": "te9",
+          "from": "t8",
+          "to": "t9",
+          "label": "No"
+        },
+        {
+          "id": "te10",
+          "from": "t10",
+          "to": "t11",
+          "label": ""
+        }
+      ]
+    },
+    {
+      "id": "email",
+      "name": "Email Classification",
+      "nodes": [
+        {
+          "id": "m1",
+          "type": "start",
+          "x": 60,
+          "y": 30,
+          "label": "Inbound email arrives\n(read-only access)",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "m2",
+          "type": "process",
+          "x": 60,
+          "y": 130,
+          "label": "Match to active applications\n(company / title / sender domain)",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "m3",
+          "type": "decision",
+          "x": 60,
+          "y": 240,
+          "label": "Match\nfound?",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "m4",
+          "type": "start",
+          "x": 360,
+          "y": 240,
+          "label": "Ignore — not a tracked\napplication",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "m5",
+          "type": "process",
+          "x": 60,
+          "y": 360,
+          "label": "Classify: Acknowledgement /\nRejection / Recruiter / Interview /\nOffer / Unrelated",
+          "connector": "claude.classify_email",
+          "params": {
+            "confidenceThresholdRef": "config.email.classificationConfidenceThreshold"
+          },
+          "approval": false
+        },
+        {
+          "id": "m6",
+          "type": "decision",
+          "x": 60,
+          "y": 490,
+          "label": "Confidence\n≥ threshold?",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "m7",
+          "type": "process",
+          "x": 360,
+          "y": 490,
+          "label": "Escalate to user\n(\"how do I categorize\nthis?\")",
+          "connector": "human.handoff",
+          "params": {
+            "reason": "low_confidence_classification"
+          },
+          "approval": true
+        },
+        {
+          "id": "m8",
+          "type": "data",
+          "x": 60,
+          "y": 620,
+          "label": "Update tracker:\nstatus + last-change ts",
+          "connector": "xlsx.update_status",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "m9",
+          "type": "decision",
+          "x": 60,
+          "y": 730,
+          "label": "Recruiter\noutreach?",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "m10",
+          "type": "data",
+          "x": 360,
+          "y": 730,
+          "label": "Capture recruiter:\nname, email, excerpt",
+          "connector": "xlsx.update_status",
+          "params": {
+            "capture": "recruiter"
+          },
+          "approval": false
+        },
+        {
+          "id": "m11",
+          "type": "start",
+          "x": 60,
+          "y": 850,
+          "label": "Done",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "mN1",
+          "type": "note",
+          "x": 660,
+          "y": 30,
+          "label": "Never delete, archive,\nreply, or forward.\nState lives in the tracker,\nnot the inbox.",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        }
+      ],
+      "edges": [
+        {
+          "id": "me1",
+          "from": "m1",
+          "to": "m2",
+          "label": ""
+        },
+        {
+          "id": "me2",
+          "from": "m2",
+          "to": "m3",
+          "label": ""
+        },
+        {
+          "id": "me3",
+          "from": "m3",
+          "to": "m5",
+          "label": "Yes"
+        },
+        {
+          "id": "me4",
+          "from": "m3",
+          "to": "m4",
+          "label": "No"
+        },
+        {
+          "id": "me5",
+          "from": "m5",
+          "to": "m6",
+          "label": ""
+        },
+        {
+          "id": "me6",
+          "from": "m6",
+          "to": "m8",
+          "label": "Yes"
+        },
+        {
+          "id": "me7",
+          "from": "m6",
+          "to": "m7",
+          "label": "No"
+        },
+        {
+          "id": "me8",
+          "from": "m7",
+          "to": "m8",
+          "label": ""
+        },
+        {
+          "id": "me9",
+          "from": "m8",
+          "to": "m9",
+          "label": ""
+        },
+        {
+          "id": "me10",
+          "from": "m9",
+          "to": "m10",
+          "label": "Yes"
+        },
+        {
+          "id": "me11",
+          "from": "m9",
+          "to": "m11",
+          "label": "No"
+        },
+        {
+          "id": "me12",
+          "from": "m10",
+          "to": "m11",
+          "label": ""
+        }
+      ]
+    },
+    {
+      "id": "lifecycle",
+      "name": "Lifecycle States",
+      "nodes": [
+        {
+          "id": "l1",
+          "type": "start",
+          "x": 60,
+          "y": 60,
+          "label": "Applied",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "l2",
+          "type": "process",
+          "x": 280,
+          "y": 60,
+          "label": "Acknowledged",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "l3",
+          "type": "process",
+          "x": 500,
+          "y": 60,
+          "label": "In Review",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "l4",
+          "type": "process",
+          "x": 720,
+          "y": 60,
+          "label": "Recruiter\nOutreach",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "l5",
+          "type": "process",
+          "x": 940,
+          "y": 60,
+          "label": "Interview\nScheduled",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "l6",
+          "type": "process",
+          "x": 1160,
+          "y": 60,
+          "label": "Offer",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "l7",
+          "type": "start",
+          "x": 1380,
+          "y": 60,
+          "label": "Hired\n(terminal)",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "l8",
+          "type": "start",
+          "x": 280,
+          "y": 230,
+          "label": "Rejected\n(terminal)",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "l9",
+          "type": "start",
+          "x": 500,
+          "y": 230,
+          "label": "Withdrawn\n(terminal)",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "l10",
+          "type": "process",
+          "x": 720,
+          "y": 230,
+          "label": "Stalled\n(no email > 30d)",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        },
+        {
+          "id": "lN1",
+          "type": "note",
+          "x": 60,
+          "y": 350,
+          "label": "Any non-terminal state can\ntransition → Rejected, Withdrawn, or Stalled.\nStalled is reversible if a new email arrives.",
+          "connector": "noop",
+          "params": {},
+          "approval": false
+        }
+      ],
+      "edges": [
+        {
+          "id": "le1",
+          "from": "l1",
+          "to": "l2",
+          "label": ""
+        },
+        {
+          "id": "le2",
+          "from": "l2",
+          "to": "l3",
+          "label": ""
+        },
+        {
+          "id": "le3",
+          "from": "l3",
+          "to": "l4",
+          "label": ""
+        },
+        {
+          "id": "le4",
+          "from": "l4",
+          "to": "l5",
+          "label": ""
+        },
+        {
+          "id": "le5",
+          "from": "l5",
+          "to": "l6",
+          "label": ""
+        },
+        {
+          "id": "le6",
+          "from": "l6",
+          "to": "l7",
+          "label": ""
+        },
+        {
+          "id": "le7",
+          "from": "l1",
+          "to": "l8",
+          "label": "rejection"
+        },
+        {
+          "id": "le8",
+          "from": "l3",
+          "to": "l8",
+          "label": "rejection"
+        },
+        {
+          "id": "le9",
+          "from": "l5",
+          "to": "l8",
+          "label": "rejection"
+        },
+        {
+          "id": "le10",
+          "from": "l1",
+          "to": "l9",
+          "label": "user"
+        },
+        {
+          "id": "le11",
+          "from": "l3",
+          "to": "l9",
+          "label": "user"
+        },
+        {
+          "id": "le12",
+          "from": "l1",
+          "to": "l10",
+          "label": "silence"
+        },
+        {
+          "id": "le13",
+          "from": "l10",
+          "to": "l4",
+          "label": "email"
+        }
+      ]
+    }
+  ]
+}

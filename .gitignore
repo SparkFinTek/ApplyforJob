@@ -1,0 +1,92 @@
+# =============================================================================
+# Project Gamma — Resume Flow
+# Files excluded from version control.
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Personal data — never commit. Each user generates their own.
+# -----------------------------------------------------------------------------
+# Submitted applications, lifecycle states, audit log
+state.json
+tracker.xlsx
+.~lock.tracker.xlsx#
+
+# Tailored resume PDFs (one per company)
+archives/*
+!archives/.gitkeep
+
+# Base resume goes in resumes/ but the actual PDF is yours
+resumes/*.pdf
+!resumes/sample-resume.pdf
+!resumes/README.md
+!resumes/.gitkeep
+
+# Real captured postings — keep only the synthetic test-00X fixtures
+pending/*.json
+!pending/test-001-fresh-vp.json
+!pending/test-002-stale.json
+!pending/test-003-too-many-applicants.json
+!pending/test-004-reposted.json
+!pending/test-005-fresh-base.json
+
+# Per-cycle notifications log
+notifications/
+
+# Secrets, env files
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# -----------------------------------------------------------------------------
+# Build artifacts
+# -----------------------------------------------------------------------------
+# Java / Maven
+backend/target/
+backend/.mvn/wrapper/maven-wrapper.jar
+*.class
+*.jar
+!backend/.mvn/wrapper/MavenWrapperDownloader.java
+
+# Node / Vite
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/build/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# -----------------------------------------------------------------------------
+# IDE / Editor
+# -----------------------------------------------------------------------------
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# -----------------------------------------------------------------------------
+# OS
+# -----------------------------------------------------------------------------
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+
+# -----------------------------------------------------------------------------
+# Old build artifacts left in the repo root (regenerated from sources)
+# -----------------------------------------------------------------------------
+JobApplicationWorkflow_Editor.html
+JobApplicationWorkflow_Requirements.docx
+JobApplicationWorkflow_Requirements.pdf
+
+# Legacy / superseded files kept locally per user preference
+*.legacy
+README.md.legacy

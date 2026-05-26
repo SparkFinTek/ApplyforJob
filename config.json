@@ -1,0 +1,84 @@
+{
+  "version" : "1",
+  "owner" : {
+    "name" : "Jay Kumar Chimata",
+    "preferredName" : "Jay",
+    "email" : "you@example.com",
+    "phone" : "555-555-5555",
+    "location" : "Your City, ST",
+    "linkedin" : "linkedin.com/in/jaychimata"
+  },
+  "schedule" : {
+    "polling" : {
+      "intervalMinutes" : 60,
+      "businessHoursOnly" : true,
+      "timezone" : "America/New_York",
+      "businessHoursStart" : "08:00",
+      "businessHoursEnd" : "18:00",
+      "daysOfWeek" : [ "Mon", "Tue", "Wed", "Thu", "Fri" ]
+    },
+    "autoRunMinutes" : 15
+  },
+  "targeting" : {
+    "_comment" : "Edit titles/locations as needed. The auto-cycle and React /search both read from here.",
+    "jobTitles" : [ "Director of Engineering", "VP of Engineering" ],
+    "locations" : [ "United States" ],
+    "workModes" : [ "Remote", "Hybrid" ],
+    "excludedCompanies" : [ ],
+    "excludedKeywords" : [ ],
+    "minMatchScore" : 0.1,
+    "postingMaxAgeMinutes" : 720
+  },
+  "resumes" : {
+    "_comment" : "Each base resume is keyed by role family. Drop files into resumes/ and register them here.",
+    "engineering_enablement_executive" : {
+      "file" : "resumes/Jay_Chimata.pdf",
+      "matchTitles" : [ "VP Engineering", "VP of Engineering", "Vice President Engineering", "Director of Engineering", "Senior Director Engineering", "Head of Engineering", "Head of Engineering Effectiveness", "Head of Engineering Operations", "Head of Developer Experience", "Director Developer Experience", "DevX Director", "Director Engineering Enablement", "Engineering Enablement Lead", "AI Engineering Director", "Director AI Engineering", "Chief Engineering Officer", "Engineering Executive" ],
+      "matchSeniority" : [ "director", "senior director", "vp", "head of", "executive" ],
+      "antiMatchKeywords" : [ "junior", "intern", "associate", "individual contributor", "ic only" ]
+    }
+  },
+  "tailoring" : {
+    "approvalGate" : true,
+    "_comment_approvalGate" : "When true, the executor shows the tailored resume and waits for user OK before proceeding to PDF + submit."
+  },
+  "submission" : {
+    "approvalGate" : true,
+    "_comment_approvalGate" : "When true (recommended), the executor pauses before clicking Submit. Always true for ATS portals.",
+    "declineMarketingOptIns" : true,
+    "neverCreateAccounts" : true,
+    "autoSubmit" : false,
+    "_comment_autoSubmit" : "DANGER: when true, the scheduled task will autonomously click Submit on LinkedIn Easy Apply forms (only). LinkedIn ToS prohibits automation; account-ban risk is real. Default false.",
+    "autoSubmitEasyApplyOnly" : true,
+    "_comment_autoSubmitEasyApplyOnly" : "Only auto-submit Easy Apply paths. External ATS portals (Workday, Greenhouse, etc.) ALWAYS stop for human Submit, regardless of autoSubmit.",
+    "dailyMaxAutoSubmissions" : 3,
+    "_comment_dailyMaxAutoSubmissions" : "Hard cap. Once N auto-submits have happened today, the cycle skips submission for the rest of the day.",
+    "perCycleMaxSubmissions" : 1,
+    "_comment_perCycleMaxSubmissions" : "Hard cap per scheduled-task run. 1 means at most one autonomous submission per fire, even if multiple postings qualify.",
+    "excludeCompanies" : [ ],
+    "_comment_excludeCompanies" : "Companies to NEVER auto-submit to. Match is case-insensitive substring on the company field."
+  },
+  "email" : {
+    "_comment" : "TBD: choose Gmail or Outlook in Phase 2.",
+    "provider" : "TBD",
+    "classificationConfidenceThreshold" : 0.8,
+    "scanScope" : "messages from ATS domains or matching active company/title patterns",
+    "readOnly" : true
+  },
+  "archival" : {
+    "rootFolder" : "archives/",
+    "filenameTemplate" : "ResumeSpark_{titleSlug}_{date}.pdf",
+    "writeApplicationMetadata" : true
+  },
+  "tracker" : {
+    "file" : "tracker.xlsx",
+    "sheet" : "Applications"
+  },
+  "lifecycle" : {
+    "stalledAfterDays" : 30
+  },
+  "notifications" : {
+    "_comment" : "TBD: where to send per-cycle summaries and approval requests.",
+    "channel" : "TBD"
+  }
+}

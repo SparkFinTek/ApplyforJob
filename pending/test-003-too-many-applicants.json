@@ -1,0 +1,19 @@
+{
+  "id" : "test-003-too-many-applicants",
+  "capturedAt" : "2026-05-08T15:00:00.000Z",
+  "title" : "VP of Engineering",
+  "company" : "BusyCorp",
+  "location" : "United States (Remote)",
+  "workMode" : "Remote",
+  "postingUrl" : "https://www.linkedin.com/jobs/view/test-003",
+  "applicantCount" : 47,
+  "postedMinutesAgo" : 90,
+  "reposted" : false,
+  "jd" : "Vice President of Engineering for a fast-growing startup. Lead the engineering team through hyper-growth phase. Looking for someone with strong execution skills and proven leadership experience.",
+  "processed" : true,
+  "_test" : true,
+  "_expectedOutcome" : "REJECTED — applicantCount (47) >= 10",
+  "processedAt" : "2026-05-08T15:25:06.624236Z",
+  "skipped" : true,
+  "skipReason" : "applicant_count_ge_10"
+}
