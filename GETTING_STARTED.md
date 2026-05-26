@@ -53,7 +53,7 @@ best fit per posting.
 ### First-time install of frontend deps
 
 ```bash
-cd "/Users/unknownunknown/Documents/Spark Invesco LLC/Resume Flow/Project Gamma/frontend"
+cd path/to/ApplyforJob/frontend
 npm install
 ```
 
@@ -146,7 +146,7 @@ not going away.
 **Terminal 1 — backend:**
 
 ```bash
-cd "/Users/unknownunknown/Documents/Spark Invesco LLC/Resume Flow/Project Gamma/backend"
+cd path/to/ApplyforJob/backend
 mvn spring-boot:run
 ```
 
@@ -155,7 +155,7 @@ Wait for `Tomcat started on port(s): 8090 (http)` and `Started JobflowApplicatio
 **Terminal 2 — frontend:**
 
 ```bash
-cd "/Users/unknownunknown/Documents/Spark Invesco LLC/Resume Flow/Project Gamma/frontend"
+cd path/to/ApplyforJob/frontend
 npm run dev
 ```
 

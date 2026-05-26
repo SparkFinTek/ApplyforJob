@@ -83,7 +83,7 @@ explicitly by editing config.json or via a future UI toggle.
 A Cowork scheduled task named **`project-gamma-job-cycle`** fires every hour
 between 8:00 AM and 6:00 PM, Monday through Friday, in Spark's local
 timezone (cron `0 8-18 * * 1-5`, ~5-minute jitter). The task file lives at
-`/Users/unknownunknown/Documents/Claude/Scheduled/project-gamma-job-cycle/SKILL.md`.
+`~/Documents/Claude/Scheduled/project-gamma-job-cycle/SKILL.md`.
 
 What each run does:
 1. Health-check the backend on `localhost:8090`. Stop and notify if down.
